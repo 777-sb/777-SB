@@ -1,1 +1,53 @@
-python
+import sys
+
+
+def read_file(file_path):
+    """
+    读取文件内容并返回字符串
+    :param file_path: 文件路径
+    :return: 文件内容字符串
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
+    except FileNotFoundError:
+        print(f"文件 {file_path} 未找到")
+        sys.exit(1)
+
+
+def calculate_similarity(original_text, plagiarized_text):
+    """
+    计算两篇论文的重复率
+    :param original_text: 原文内容字符串
+    :param plagiarized_text: 抄袭版内容字符串
+    :return: 重复率（浮点数）
+    """
+    original_words = original_text.split()
+    plagiarized_words = plagiarized_text.split()
+    common_words = set(original_words) & set(plagiarized_words)
+    similarity = len(common_words) / max(len(original_words), len(plagiarized_words))
+    return similarity
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print("请提供原文文件路径、抄袭版文件路径和输出文件路径作为命令行参数")
+        sys.exit(1)
+
+    original_file_path = sys.argv[1]
+    plagiarized_file_path = sys.argv[2]
+    output_file_path = sys.argv[3]
+
+    original_text = read_file(original_file_path)
+    plagiarized_text = read_file(plagiarized_file_path)
+
+    similarity = calculate_similarity(original_text, plagiarized_text)
+
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        output_file.write(f"{similarity:.2f}")
+
+代码说明：
+导入模块：sys 模块用于处理命令行参数。
+read_file 函数：接受一个文件路径作为参数，尝试读取文件内容并返回。如果文件未找到，打印错误信息并退出程序。
+calculate_similarity 函数：接受原文和抄袭版论文的文本内容，将文本拆分为单词列表，找出共同的单词，通过共同单词数除以两篇论文单词数的最大值来计算重复率。
+主程序部分：检查命令行参数的数量是否正确，若不正确则打印提示信息并退出。获取原文文件路径、抄袭版文件路径和输出文件路径，读取原文和抄袭版的文本内容，计算重复率，最后将计算结果以保留两位小数的浮点数形式写入输出文件中。
