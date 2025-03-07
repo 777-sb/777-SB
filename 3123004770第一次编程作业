@@ -29,3 +29,50 @@ void splitWords(const string& text, set<string>& words) {
 		words.insert(word);
 	}
 }
+
+int main(int argc, char* argv[]) {
+	// 检查命令行参数数量
+	if (argc != 3) {
+		cerr << "参数错误，应为：原文路径 抄袭版路径 输出路径" << endl;
+		return 1;
+	}
+	/*
+	string originalPath = argv[1];
+	string plagiarizedPath = argv[2];
+	string outputPath = argv[3];*/
+
+	string originalPath = "D:\c++ code\test\org.txt";
+	string plagiarizedPath = "D:\c++ code\test\orig_0.8_add.txt";
+	string outputPath = "D:\c++ code\real paper";
+
+	// 读取原文和抄袭版内容
+	string originalText = readFile(originalPath);
+	string plagiarizedText = readFile(plagiarizedPath);
+
+	set<string> origWords, plagWords;
+	splitWords(originalText, origWords);
+	splitWords(plagiarizedText, plagWords);
+
+	set<string> commonWords;
+	// 计算共同单词（集合交集）
+	set_intersection(
+		origWords.begin(), origWords.end(),
+		plagWords.begin(), plagWords.end(),
+		inserter(commonWords, commonWords.begin())
+	);
+
+	// 计算重复率
+	double similarity = commonWords.size() /
+		static_cast<double>(max(origWords.size(), plagWords.size()));
+
+	// 写入结果到输出文件
+	ofstream outFile(outputPath);
+	if (!outFile) {
+		cerr << "无法创建输出文件" << endl;
+		return 1;
+	}
+	outFile << fixed << setprecision(2) << similarity;
+	outFile.close();
+
+	return 0;
+}
