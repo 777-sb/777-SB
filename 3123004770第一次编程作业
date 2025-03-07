@@ -1,0 +1,22 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <set>
+#include <sstream>
+#include <iomanip>
+#include <algorithm> 
+#include<iterator>
+using namespace std;
+
+
+// 读取文件内容
+string readFile(const string& path) {
+	ifstream file(path);
+	if (!file) {  // 检查文件是否打开成功
+		cerr << "文件未找到: " << path << endl;
+		exit(1);
+	}
+	// 将文件内容读取到字符串
+	string content((istreambuf_iterator<char>(file)), (istreambuf_iterator<char>()));
+	return content;
+}
