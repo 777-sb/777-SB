@@ -36,14 +36,10 @@ int main(int argc, char* argv[]) {
 		cerr << "参数错误，应为：原文路径 抄袭版路径 输出路径" << endl;
 		return 1;
 	}
-	/*
+	
 	string originalPath = argv[1];
 	string plagiarizedPath = argv[2];
-	string outputPath = argv[3];*/
-
-	string originalPath = "D:\c++ code\test\org.txt";
-	string plagiarizedPath = "D:\c++ code\test\orig_0.8_add.txt";
-	string outputPath = "D:\c++ code\real paper";
+	string outputPath = argv[3];
 
 	// 读取原文和抄袭版内容
 	string originalText = readFile(originalPath);
