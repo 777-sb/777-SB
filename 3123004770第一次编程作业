@@ -20,3 +20,12 @@ string readFile(const string& path) {
 	string content((istreambuf_iterator<char>(file)), (istreambuf_iterator<char>()));
 	return content;
 }
+
+// 分割文本为单词并存储到集合
+void splitWords(const string& text, set<string>& words) {
+	stringstream ss(text);
+	string word;
+	while (ss >> word) {  // 按空格分割单词
+		words.insert(word);
+	}
+}
